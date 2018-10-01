@@ -2,26 +2,50 @@ package br.usjt.arqsw18.pipoca.model.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.jboss.logging.Message;
-
-public class Filme {	
+@Entity
+//@Table(name="Filme") Este parametro só eh necessario quando o nome da table no banco difere do nome da classe
+public class Filme {
+	@Id
+	@NotNull
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	@NotNull
-	@Size(min=2, max=100, message="Título deve ter entre 2 e 100 caracteres.")	
- 	private String titulo;
 	
 	@NotNull
-	@Size(min=20, max=4000, message="Descrição deve ter entre 20 e 4000 caracteres.")
-	private String descricao;	
+	@Size(min=2, max=100, message="Tamanho entre 2 e 100 caracteres")
+	private String titulo;
 	
+	@Size(max=4000, message="Tamanho entre 20 e 4000 caracteres")
+	private String descricao;
+	
+	@Max(value=100)
+	@Min(value=1)
 	private double popularidade;
+	
+	@Temporal(value=TemporalType.DATE)
 	private Date dataLancamento;
+	
+	@Size(max=200, message="Tamanho máximo de 200 caracteres")
 	private String posterPath;
+	
+	@Size(max=60, message="Tamanho máximo de 60 caracteres")
 	private String diretor;
+	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="id_genero")
 	private Genero genero;
 	
 	public int getId() {
@@ -78,4 +102,5 @@ public class Filme {
 				+ ", dataLancamento=" + dataLancamento + ", posterPath=" + posterPath + ", diretor=" + diretor
 				+ ", genero=" + genero + "]";
 	}
+
 }
