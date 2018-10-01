@@ -1,24 +1,30 @@
 package br.usjt.arqsw18.pipoca.model.service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
+import br.usjt.arqsw18.pipoca.model.dao.FilmeDAO;
 import br.usjt.arqsw18.pipoca.model.entity.Filme;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import br.usjt.arqsw18.pipoca.model.entity.Genero;
 
 public class FilmeService {
-	@PersistenceContext
-	EntityManager manager;
+	private FilmeDAO dao;
 	
-	public int inserirFilme(Filme filme) {
-		System.out.println(Filme.toString());
-		manager.persist(filme);
-		return filme.getId();
-	}
-	public List<Filme> listarFiilme() throws IOException{
-		return manager.createQuery("select filme from tb_filme filme").getResultList();
+	public FilmeService() {
+		dao = new FilmeDAO();
 	}
 	
+	public Filme buscarFilme(int id) throws IOException{
+		return dao.buscarFilme(id);
+	}
+	
+	public Filme inserirFilme(Filme filme) throws IOException {
+		int id = dao.inserirFilme(filme);
+		filme.setId(id);
+		GeneroService service = new GeneroService();
+		Genero genero = service.buscarGenero(filme.getGenero().getId());
+		filme.setGenero(genero);
+		return filme;
+	}
 
 }
