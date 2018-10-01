@@ -2,10 +2,22 @@ package br.usjt.arqsw18.pipoca.model.entity;
 
 import java.util.Date;
 
-public class Filme {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.jboss.logging.Message;
+
+public class Filme {	
 	private int id;
-	private String titulo;
-	private String descricao;
+
+	@NotNull
+	@Size(min=2, max=100, message="Título deve ter entre 2 e 100 caracteres.")	
+ 	private String titulo;
+	
+	@NotNull
+	@Size(min=20, max=4000, message="Descrição deve ter entre 20 e 4000 caracteres.")
+	private String descricao;	
+	
 	private double popularidade;
 	private Date dataLancamento;
 	private String posterPath;
@@ -66,6 +78,4 @@ public class Filme {
 				+ ", dataLancamento=" + dataLancamento + ", posterPath=" + posterPath + ", diretor=" + diretor
 				+ ", genero=" + genero + "]";
 	}
-
-
 }

@@ -7,9 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Repository;
+
 import br.usjt.arqsw18.pipoca.model.entity.Genero;
 
+@Repository
 public class GeneroDAO {
+
 	public Genero buscarGenero(int id) throws IOException {
 		Genero genero = null;
 		String sql = "select id, nome from genero where id=?";
